@@ -1,27 +1,26 @@
+import { UserService } from '../service/userService.js'
+import express from "express";
+export class userController {
 
-
-import { TestService } from '../service/testService.js'
-export class TestController {
-
-    async getTest(req, res, next) {
+    async getUser(req, res, next) {
         try {
 
-            const testService = new TestService();
-            const resultItems = await testService.getTest()
+            const userService = new UserService();
+            const resultItems = await userService.getUser()
             return res.status(200).json(resultItems);
         }
         catch (ex) {
             const err = {}
             err.statusCode = 500;
             err.message = ex;
-            next(err)
+            express.next(err);C
         }
     }
 
-    async getTestById(req, res) {
+    async getUserById(req, res) {
         try {
-            const testService = new TestService();
-            const resultItem = await testService.getTestById(req.params.id);
+            const userService = new UserService();
+            const resultItem = await userService.getUserById(req.params.id);
             res.status(200).json({ status: 200, data: resultItem });
         }
         catch (ex) {
@@ -33,10 +32,10 @@ export class TestController {
     }
 
 
-    async addTest(req, res) {
+    async addUser(req, res) {
         try {
-            const testService = new TestService();
-             await testService.addTest(req.body);
+            const userService = new UserService();
+             await userService.addUser(req.body);
             res.status(200).json({ status: 200 });
         }
         catch (ex) {
@@ -48,9 +47,9 @@ export class TestController {
     }
 
 
-    async deleteTest(req, res) {
+    async deleteUser(req, res) {
         try {
-            console.log("test");
+            console.log("user");
             console.log(req.params.id);
             res.status(200).json({ status: 200, data: req.params.id });
         }
@@ -62,9 +61,9 @@ export class TestController {
         }
     }
 
-    async updateTest(req, res) {
+    async updateUser(req, res) {
         try {
-            console.log("test");
+            console.log("user");
             console.log(req.params.id);
             console.log(req.body);
             res.status(200).json({ status: 200, data: req.params.id });
