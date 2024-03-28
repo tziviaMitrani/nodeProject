@@ -1,10 +1,10 @@
 function getUserQuery() {
-    const query = `SELECT * FROM tz&e.users `;
+    const query = `SELECT * FROM db_for_project.users `;
     return query
 }
 
 function getUserByIdQuery() {
-    const query = `SELECT * FROM tz&e.users where id = ?`;
+    const query = `SELECT * FROM db_for_project.users where id = ?`;
     return query
 }
 
