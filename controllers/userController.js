@@ -1,12 +1,13 @@
-import { UserService } from '../service/userService.js'
+// import { Service } from '../service/userService.js'
+import { Service } from "../service/userService";
 import express from "express";
-export class userController {
+export class Controller {
 
-    async getUser(req, res, next) {
+    async get(req, res, next) {
         try {
 
-            const userService = new UserService();
-            const resultItems = await userService.getUser()
+            const Service = new Service();
+            const resultItems = await Service.get()
             return res.status(200).json(resultItems);
         }
         catch (ex) {
@@ -17,10 +18,10 @@ export class userController {
         }
     }
 
-    async getUserById(req, res) {
+    async getById(req, res) {
         try {
-            const userService = new UserService();
-            const resultItem = await userService.getUserById(req.params.id);
+            const Service = new Service();
+            const resultItem = await Service.getById(req.params.id);
             res.status(200).json({ status: 200, data: resultItem });
         }
         catch (ex) {
@@ -32,10 +33,10 @@ export class userController {
     }
 
 
-    async addUser(req, res) {
+    async add(req, res) {
         try {
-            const userService = new UserService();
-             await userService.addUser(req.body);
+            const Service = new Service();
+             await Service.add(req.body);
             res.status(200).json({ status: 200 });
         }
         catch (ex) {
@@ -47,7 +48,7 @@ export class userController {
     }
 
 
-    async deleteUser(req, res) {
+    async delete(req, res) {
         try {
             console.log("user");
             console.log(req.params.id);
@@ -61,7 +62,7 @@ export class userController {
         }
     }
 
-    async updateUser(req, res) {
+    async update(req, res) {
         try {
             console.log("user");
             console.log(req.params.id);

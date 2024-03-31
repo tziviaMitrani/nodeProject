@@ -1,22 +1,35 @@
 import { executeQuery } from './db.js';
-import { getUserQuery ,getUserByIdQuery} from './queryUser.js'
+import { getQuery ,getByIdQuery, deleteQuery, postQuery, putUseQurery} from './queryUser.js'
 
-export class UserService {
+export class Service {
 
-    async getUser() {
-        const queryUser = getUserQuery();
+    async get() {
+        const query = getQuery(tebleName);
         const result = await executeQuery(queryUser);
         return result;
     }
 
-    async getUserById(id) {
-        const queryUser = getUserByIdQuery();
+    async getById(id) {
+        const query = getByIdQuery(tableName);
         const result =  await executeQuery(queryUser, [id]);
         return result;
     }
 
-    async addUser(UserItem) {
-        // call db add item
-        
+    async add(Item) {
+        const query = postQuery(tableName);
+        const result =  await executeQuery(queryUser, Item);
+        return result;
+    }
+
+    async update(id) {
+        const query = putUseQurery(tableName);
+        const result =  await executeQuery(queryUser, Item);
+        return result;
+    }
+
+    async delete(id) {
+        const query = deleteQuery(tableName);
+        const result =  await executeQuery(queryUser, [id]);
+        return result;
     }
 }
