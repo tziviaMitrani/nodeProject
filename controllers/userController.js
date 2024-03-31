@@ -1,42 +1,42 @@
-// import { Service } from '../service/userService.js'
-import { Service } from "../service/userService";
+import {Service} from '../service/userService.js'
 import express from "express";
+
+
 export class Controller {
 
     async get(req, res, next) {
         try {
-
-            const Service = new Service();
-            const resultItems = await Service.get()
+            const service = new Service();
+            const resultItems = await service.get()
             return res.status(200).json(resultItems);
         }
         catch (ex) {
             const err = {}
             err.statusCode = 500;
             err.message = ex;
-            express.next(err);C
+            next(err);
         }
     }
 
-    async getById(req, res) {
+    async getById(req, res, next) {
         try {
-            const Service = new Service();
-            const resultItem = await Service.getById(req.params.id);
+            const service = new Service();
+            const resultItem = await service.getById(req.params.id);
             res.status(200).json({ status: 200, data: resultItem });
         }
         catch (ex) {
             const err = {}
             err.statusCode = 500;
             err.message = ex;
-            next(err)
+            next(err);
         }
     }
 
 
-    async add(req, res) {
+    async add(req, res, next) {
         try {
-            const Service = new Service();
-             await Service.add(req.body);
+            const service= new Service();
+             await service.add(req.body);
             res.status(200).json({ status: 200 });
         }
         catch (ex) {
@@ -48,10 +48,12 @@ export class Controller {
     }
 
 
-    async delete(req, res) {
+    async delete(req, res, next) {
         try {
-            console.log("user");
-            console.log(req.params.id);
+            // console.log("user");
+            // console.log(req.params.id);
+            const service= new Service();
+             await service.delete(req.params.id);
             res.status(200).json({ status: 200, data: req.params.id });
         }
         catch (ex) {
@@ -62,7 +64,7 @@ export class Controller {
         }
     }
 
-    async update(req, res) {
+    async update(req, res, next) {
         try {
             console.log("user");
             console.log(req.params.id);
@@ -76,8 +78,5 @@ export class Controller {
             next(err)
         }
     }
-
-
-
 
 }

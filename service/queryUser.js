@@ -3,13 +3,15 @@ function getQuery(tableName) {
     return query
 }
 
+
 function getByIdQuery(tableName) {
-    const query = `SELECT * FROM ${tableName} where id = ?`;
+    const query = `SELECT * FROM ${tableName} where isActive = 1 & id = ?`;
     return query
 }
 
+
 function deleteQuery(tableName) {
-    const query = `UPDATE ${tableName} SET isActive=0 WHERE Id = ?`;
+    const query = `UPDATE ${tableName} SET isActive = 0 WHERE Id = ?`;
     return query
 }
 function PostQuery(tableName)

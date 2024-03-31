@@ -1,15 +1,15 @@
 import express from "express";
 import { Controller } from '../controllers/userController.js'
-const Router = express.Router();
+const userRouter = express.Router();
 
 const controller = new Controller()
 
-Router.get("/:id", controller.getById)
-Router.get("/", controller.get)
-Router.post("/", controller.add)
-Router.delete("/:id", controller.delete)
-Router.put("/:id", controller.update)
+userRouter.get("/:id", controller.getById)
+userRouter.get("/", controller.get)
+userRouter.post("/", controller.add)
+userRouter.delete("/:id", controller.delete)
+userRouter.put("/:id", controller.update)
 
 export {
-    Router
+    userRouter
 }
