@@ -1,42 +1,80 @@
+import { query } from "express";
+
 function getQuery(tableName) {
-    const query = `SELECT * FROM ${tableName}`;
+    const query = `SELECT * FROM ${tableName} where isActive = 1`;
     return query
 }
 
 
 function getByIdQuery(tableName) {
-    const query = `SELECT * FROM ${tableName} where isActive = 1 & id = ?`;
+    const query = `SELECT * FROM ${tableName} where isActive = 1 AND id = ?`;
     return query
 }
-
 
 function deleteQuery(tableName) {
     const query = `UPDATE ${tableName} SET isActive = 0 WHERE Id = ?`;
     return query
 }
-function PostQuery(tableName)
-{
-//פונקציה ששולחת לפי שם טבלה post
+
+function postQuery(tableName) {
+     //return postUserQuery();
+
+    let query;
+    switch (tableName) {
+        case 'users':
+             console.log("table"+tableName);
+            query = `INSERT INTO users (name, username, email, phone,isActive) VALUES (?,?,?,?,1)`;
+            break;
+        case 'posts':
+            query = `INSERT INTO posts (title,body) VALUES (?,?)`;
+            break;
+        case 'todos':
+            query = `INSERT INTO todos (title, completed, userId) VALUES (?,?,?,?,?)`;
+            break;
+        case 'comments':
+            query = `INSERT INTO comments (name, body) VALUES (?,?)`;
+            break;
+        default:
+            break;
+    }
+    return query;
+    //פונקציה ששולחת לפי שם טבלה post
 }
 
-function putQuery(tableName)
-{
-//פונ' ששולחת לפי שם טבלה put
+function putQuery(tableName) {
+    let query;
+    switch (tableName) {
+        case 'users':
+            query = `UPDATE users SET name=?, userName=?, email=?, phone=?  WHERE id = ?`;
+            break;
+        case 'posts':
+            query = `UPDATE posts SET title=?, body=? WHERE id = ?`;
+            break;
+        case 'todos':
+            query = `UPDATE todos SET title=?, completed=?, userId=? WHERE id = ?`;
+            break;
+        case 'comments':
+            query = `UPDATE comments SET name=?, body=? WHERE id = ?`;
+            break;
+
+        default:
+            break;
+    }
+    return query;
+    //return putUserQurery();
+    //פונ' ששולחת לפי שם טבלה put
 }
+
 
 export {
-    getQuery, getByIdQuery, deleteQuery, PostQuery, putQuery
+    getQuery, getByIdQuery, deleteQuery, postQuery, putQuery
 }
-
-
-
-
 
 // putUserQurery, putPostQurery, putCommentQurery, putTodoQurery, postCommentQuery, postTodoQuery, postPostQuery, postUserQuery
 //post
 //להכניס לפי שדות של user
-function postUserQuery(tableName) {
-    const query = `"INSERT INTO db_for_project.users () VALUES (?,?,?,?,?)`;
+function postUserQuery() {
+    const query = `INSERT INTO users (name, username, email, phone,isActive) VALUES (?,?,?,?,1)`;
     return query
 }
 //להכניס לפי שדות של post
@@ -59,7 +97,7 @@ function postCommentQuery(tableName) {
 //put
 //להכניס לפי שדות של user
 function putUserQurery() {
-    const query = `UPDATE db_for_project.users SET email=?  WHERE id = ?`;
+    const query = `UPDATE db_for_project.users SET name=?, userName=?, email=?, phone=?  WHERE id = ?`;
     return query
 }
 //להכניס לפי שדות של post

@@ -1,13 +1,11 @@
 import {Service} from '../service/userService.js'
 import express from "express";
 
-
-export class UserController {
-
+export class CommentController{
     async getUser(req, res, next) {
         try {
             const service = new Service();
-            const resultItems = await service.getItem()
+            const resultItems = await service.get()
             return res.status(200).json(resultItems);
         }
         catch (ex) {
@@ -21,7 +19,7 @@ export class UserController {
     async getUserById(req, res, next) {
         try {
             const service = new Service();
-            const resultItem = await service.getItemById(req.params.id);
+            const resultItem = await service.getById(req.params.id);
             res.status(200).json({ status: 200, data: resultItem });
         }
         catch (ex) {
@@ -35,27 +33,8 @@ export class UserController {
     async addUser(req, res, next) {
         try {
             const service= new Service();
-            await service.addItem(req.body);
+             await service.addItem(req.body);
             res.status(200).json({ status: 200 });
-        }
-        catch (ex) {
-            const err = {}
-            err.statusCode = 500;
-            err.message = ex;
-            next(err)
-        }
-    }
-
-
-
-    async updateUser(req, res, next) {
-        try {
-            const service= new Service();
-            await service.updateItem(req.body, req.params.id);
-            console.log("user");
-            console.log(req.params.id);
-            console.log(req.body);
-            res.status(200).json({ status: 200, data: req.params.id });
         }
         catch (ex) {
             const err = {}
@@ -67,8 +46,25 @@ export class UserController {
 
     async deleteUser(req, res, next) {
         try {
+            // console.log("user");
+            // console.log(req.params.id);
             const service= new Service();
-             await service.deleteItem(req.params.id);
+             await service.delete(req.params.id);
+            res.status(200).json({ status: 200, data: req.params.id });
+        }
+        catch (ex) {
+            const err = {}
+            err.statusCode = 500;
+            err.message = ex;
+            next(err)
+        }
+    }
+
+    async updateUser(req, res, next) {
+        try {
+            console.log("user");
+            console.log(req.params.id);
+            console.log(req.body);
             res.status(200).json({ status: 200, data: req.params.id });
         }
         catch (ex) {
