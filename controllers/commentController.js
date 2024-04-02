@@ -1,7 +1,7 @@
-import {Service} from '../service/service.js'
+import { Service } from '../service/service.js'
 import express from "express";
 
-export class CommentController{
+export class CommentController {
     async getComment(req, res, next) {
         try {
             console.log(req.params)
@@ -33,7 +33,7 @@ export class CommentController{
 
     async addComment(req, res, next) {
         try {
-            const service= new Service('comments');
+            const service = new Service('comments');
             await service.addItem(req.body);
             res.status(200).json({ status: 200 });
         }
@@ -45,11 +45,9 @@ export class CommentController{
         }
     }
 
-
-
     async updateComment(req, res, next) {
         try {
-            const service= new Service('comments');
+            const service = new Service('comments');
             await service.updateItem(req.body, req.params.id);
             console.log("Comment");
             console.log(req.params.id);
@@ -66,8 +64,8 @@ export class CommentController{
 
     async deleteComment(req, res, next) {
         try {
-            const service= new Service('comments');
-             await service.deleteItem(req.params.id);
+            const service = new Service('comments');
+            await service.deleteItem(req.params.id);
             res.status(200).json({ status: 200, data: req.params.id });
         }
         catch (ex) {

@@ -1,9 +1,9 @@
-import {Service} from '../service/service.js'
+import { Service } from '../service/service.js'
 import express from "express";
 
 const routTOComments = express();
 
-export class PostController{
+export class PostController {
 
     async getPost(req, res, next) {
         try {
@@ -36,7 +36,7 @@ export class PostController{
 
     async addPost(req, res, next) {
         try {
-            const service= new Service('posts');
+            const service = new Service('posts');
             await service.addItem(req.body);
             res.status(200).json({ status: 200 });
         }
@@ -50,7 +50,7 @@ export class PostController{
 
     async updatePost(req, res, next) {
         try {
-            const service= new Service('posts');
+            const service = new Service('posts');
             await service.updateItem(req.body, req.params.id);
             console.log("Post");
             console.log(req.params.id);
@@ -67,8 +67,8 @@ export class PostController{
 
     async deletePost(req, res, next) {
         try {
-            const service= new Service('posts');
-             await service.deleteItem(req.params.id);
+            const service = new Service('posts');
+            await service.deleteItem(req.params.id);
             res.status(200).json({ status: 200, data: req.params.id });
         }
         catch (ex) {

@@ -1,7 +1,7 @@
-import {Service} from '../service/service.js'
+import { Service } from '../service/service.js'
 import express from "express";
 
-export class TodoController{
+export class TodoController {
     async getTodo(req, res, next) {
         try {
             console.log(req.params)
@@ -33,7 +33,7 @@ export class TodoController{
 
     async addTodo(req, res, next) {
         try {
-            const service= new Service('todos');
+            const service = new Service('todos');
             await service.addItem(req.body);
             res.status(200).json({ status: 200 });
         }
@@ -45,11 +45,9 @@ export class TodoController{
         }
     }
 
-
-
     async updateTodo(req, res, next) {
         try {
-            const service= new Service('todos');
+            const service = new Service('todos');
             await service.updateItem(req.body, req.params.id);
             console.log("todo");
             console.log(req.params.id);
@@ -66,8 +64,8 @@ export class TodoController{
 
     async deleteTodo(req, res, next) {
         try {
-            const service= new Service('todos');
-             await service.deleteItem(req.params.id);
+            const service = new Service('todos');
+            await service.deleteItem(req.params.id);
             res.status(200).json({ status: 200, data: req.params.id });
         }
         catch (ex) {

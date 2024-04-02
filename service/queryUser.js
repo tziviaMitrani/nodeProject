@@ -17,12 +17,11 @@ function deleteQuery(tableName) {
 }
 
 function postQuery(tableName) {
-     //return postUserQuery();
 
     let query;
     switch (tableName) {
         case 'users':
-             console.log("table"+tableName);
+            console.log("table" + tableName);
             query = `INSERT INTO users (name, username, email, phone,isActive) VALUES (?,?,?,?,1)`;
             break;
         case 'posts':
@@ -38,7 +37,6 @@ function postQuery(tableName) {
             break;
     }
     return query;
-    //פונקציה ששולחת לפי שם טבלה post
 }
 
 function putQuery(tableName) {
@@ -61,8 +59,6 @@ function putQuery(tableName) {
             break;
     }
     return query;
-    //return putUserQurery();
-    //פונ' ששולחת לפי שם טבלה put
 }
 
 

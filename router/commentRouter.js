@@ -1,5 +1,5 @@
 import express from "express";
-import {  CommentController} from '../controllers/commentController.js'
+import { CommentController } from '../controllers/commentController.js'
 
 const commentRouter = express.Router();
 
@@ -11,6 +11,6 @@ commentRouter.post("/", commentController.addComment)
 commentRouter.delete("/:id", commentController.deleteComment)
 commentRouter.put("/:id", commentController.updateComment)
 
-export{
+export {
     commentRouter
 }

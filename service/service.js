@@ -1,13 +1,12 @@
 import { executeQuery } from './db.js';
-import { getQuery ,getByIdQuery, deleteQuery, putQuery, postQuery } from './queryUser.js'
+import { getQuery, getByIdQuery, deleteQuery, putQuery, postQuery } from './queryUser.js'
 
-//const tableName='users';
 
 export class Service {
-    constructor(_tableName){
+    constructor(_tableName) {
         this.tableName = _tableName
     }
-    // tableName='db_for_project.users';
+
     async getItem() {
         const queryUser = getQuery(this.tableName);
         const result = await executeQuery(queryUser);
@@ -16,36 +15,31 @@ export class Service {
 
     async getItemById(id) {
         const query = getByIdQuery(this.tableName);
-        const result =  await executeQuery(query, [id]);
+        const result = await executeQuery(query, [id]);
         return result;
     }
-    // async getById(id) {
-    //     const query = getByIdQuery(tableName);
-    //     const result =  await executeQuery(queryUser, [id]);
-    //     return result;
-    // }
 
     async addItem(Item) {
         console.log(Item);
         const query = postQuery(this.tableName);
-        Item=Object.values(Item);
+        Item = Object.values(Item);
         console.log(Item);
-        const result =  await executeQuery(query, Item);
+        const result = await executeQuery(query, Item);
         return result;
     }
 
-    async updateItem(Item,id) {
+    async updateItem(Item, id) {
         console.log(Item);
         const query = putQuery(this.tableName);
-        Item=Object.values(Item);
+        Item = Object.values(Item);
         Item.push(id);
-        const result =  await executeQuery(query, Item);
+        const result = await executeQuery(query, Item);
         return result;
     }
 
     async deleteItem(id) {
         const query = deleteQuery(this.tableName);
-        const result =  await executeQuery(query, [id]);
+        const result = await executeQuery(query, [id]);
         return result;
     }
 }

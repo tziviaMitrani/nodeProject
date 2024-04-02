@@ -1,5 +1,5 @@
 import express from "express";
-import { PostController} from '../controllers/postController.js'
+import { PostController } from '../controllers/postController.js'
 
 const postRouter = express.Router();
 
@@ -11,6 +11,6 @@ postRouter.post("/", todoController.addPost)
 postRouter.delete("/:id", todoController.deletePost)
 postRouter.put("/:id", todoController.updatePost)
 
-export{
+export {
     postRouter
 }
