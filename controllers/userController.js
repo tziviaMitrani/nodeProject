@@ -1,4 +1,4 @@
-import {Service} from '../service/userService.js'
+import {Service} from '../service/service.js'
 import express from "express";
 
 
@@ -6,7 +6,7 @@ export class UserController {
 
     async getUser(req, res, next) {
         try {
-            const service = new Service();
+            const service = new Service('users');
             const resultItems = await service.getItem()
             return res.status(200).json(resultItems);
         }
@@ -20,7 +20,7 @@ export class UserController {
 
     async getUserById(req, res, next) {
         try {
-            const service = new Service();
+            const service = new Service('users');
             const resultItem = await service.getItemById(req.params.id);
             res.status(200).json({ status: 200, data: resultItem });
         }
@@ -34,7 +34,7 @@ export class UserController {
 
     async addUser(req, res, next) {
         try {
-            const service= new Service();
+            const service= new Service('users');
             await service.addItem(req.body);
             res.status(200).json({ status: 200 });
         }
@@ -50,7 +50,7 @@ export class UserController {
 
     async updateUser(req, res, next) {
         try {
-            const service= new Service();
+            const service= new Service('users');
             await service.updateItem(req.body, req.params.id);
             console.log("user");
             console.log(req.params.id);
@@ -67,7 +67,7 @@ export class UserController {
 
     async deleteUser(req, res, next) {
         try {
-            const service= new Service();
+            const service= new Service('users');
              await service.deleteItem(req.params.id);
             res.status(200).json({ status: 200, data: req.params.id });
         }

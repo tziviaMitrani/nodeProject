@@ -1,11 +1,12 @@
-import {Service} from '../service/userService.js'
+import {Service} from '../service/service.js'
 import express from "express";
 
 export class CommentController{
-    async getUser(req, res, next) {
+    async getComment(req, res, next) {
         try {
-            const service = new Service();
-            const resultItems = await service.get()
+            console.log(req.params)
+            const service = new Service('comments');
+            const resultItems = await service.getItem()
             return res.status(200).json(resultItems);
         }
         catch (ex) {
@@ -16,10 +17,10 @@ export class CommentController{
         }
     }
 
-    async getUserById(req, res, next) {
+    async getCommentById(req, res, next) {
         try {
-            const service = new Service();
-            const resultItem = await service.getById(req.params.id);
+            const service = new Service('comments');
+            const resultItem = await service.getItemById(req.params.id);
             res.status(200).json({ status: 200, data: resultItem });
         }
         catch (ex) {
@@ -30,10 +31,10 @@ export class CommentController{
         }
     }
 
-    async addUser(req, res, next) {
+    async addComment(req, res, next) {
         try {
-            const service= new Service();
-             await service.addItem(req.body);
+            const service= new Service('comments');
+            await service.addItem(req.body);
             res.status(200).json({ status: 200 });
         }
         catch (ex) {
@@ -44,12 +45,15 @@ export class CommentController{
         }
     }
 
-    async deleteUser(req, res, next) {
+
+
+    async updateComment(req, res, next) {
         try {
-            // console.log("user");
-            // console.log(req.params.id);
-            const service= new Service();
-             await service.delete(req.params.id);
+            const service= new Service('comments');
+            await service.updateItem(req.body, req.params.id);
+            console.log("Comment");
+            console.log(req.params.id);
+            console.log(req.body);
             res.status(200).json({ status: 200, data: req.params.id });
         }
         catch (ex) {
@@ -60,11 +64,10 @@ export class CommentController{
         }
     }
 
-    async updateUser(req, res, next) {
+    async deleteComment(req, res, next) {
         try {
-            console.log("user");
-            console.log(req.params.id);
-            console.log(req.body);
+            const service= new Service('comments');
+             await service.deleteItem(req.params.id);
             res.status(200).json({ status: 200, data: req.params.id });
         }
         catch (ex) {

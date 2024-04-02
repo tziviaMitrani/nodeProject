@@ -26,13 +26,13 @@ function postQuery(tableName) {
             query = `INSERT INTO users (name, username, email, phone,isActive) VALUES (?,?,?,?,1)`;
             break;
         case 'posts':
-            query = `INSERT INTO posts (title,body) VALUES (?,?)`;
+            query = `INSERT INTO posts (title,body,userId) VALUES (?,?,?)`;
             break;
         case 'todos':
-            query = `INSERT INTO todos (title, completed, userId) VALUES (?,?,?,?,?)`;
+            query = `INSERT INTO todos (title, completed, userId) VALUES (?,?,?)`;
             break;
         case 'comments':
-            query = `INSERT INTO comments (name, body) VALUES (?,?)`;
+            query = `INSERT INTO comments (postId, name, email, body) VALUES (?,?,?,?)`;
             break;
         default:
             break;
