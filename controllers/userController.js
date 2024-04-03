@@ -22,7 +22,7 @@ export class UserController {
         try {
             const service = new Service('users');
             const resultItem = await service.getItemById(req.params.id);
-            res.status(200).json({ status: 200, data: resultItem });
+            res.status(200).json( resultItem );
         }
         catch (ex) {
             const err = {}

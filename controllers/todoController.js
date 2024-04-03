@@ -4,10 +4,19 @@ import express from "express";
 export class TodoController {
     async getTodo(req, res, next) {
         try {
-            console.log(req.params)
+            let resultItem;
+            console.log(req.query)
+            if (Object.keys(req.query).length>0) {
+                console.log(req.query.userId)
+                const service = new Service('todos', 'userId');
+                resultItem = await service.getItemByParam(req.query.userId);
+            }
+            else{
             const service = new Service('todos');
-            const resultItems = await service.getItem()
-            return res.status(200).json(resultItems);
+            resultItem = await service.getItem();
+            }
+            
+            return res.status(200).json(resultItem);
         }
         catch (ex) {
             const err = {}
@@ -21,6 +30,20 @@ export class TodoController {
         try {
             const service = new Service('todos');
             const resultItem = await service.getItemById(req.params.id);
+            res.status(200).json({ status: 200, data: resultItem });
+        }
+        catch (ex) {
+            const err = {}
+            err.statusCode = 500;
+            err.message = ex;
+            next(err);
+        }
+    }
+
+    async getTodoByUserId(req, res, next) {
+        try {
+            const service = new Service('todos', 'userId');
+            const resultItem = await service.getItemByParam(req.query.userId);
             res.status(200).json({ status: 200, data: resultItem });
         }
         catch (ex) {

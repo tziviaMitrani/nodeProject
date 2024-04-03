@@ -1,10 +1,11 @@
 import { executeQuery } from './db.js';
-import { getQuery, getByIdQuery, deleteQuery, putQuery, postQuery } from './queryUser.js'
+import { getQuery, getByIdQuery, getByParamQuery, deleteQuery, putQuery, postQuery } from './queryUser.js'
 
 
 export class Service {
-    constructor(_tableName) {
-        this.tableName = _tableName
+    constructor(_tableName, _param=null) {
+        this.tableName = _tableName;
+        this.param = _param;
     }
 
     async getItem() {
@@ -19,17 +20,20 @@ export class Service {
         return result;
     }
 
+    async getItemByParam() {
+        const query = getByParamQuery(this.tableName, this.param);
+        const result = await executeQuery(query);
+        return result;
+    }
+
     async addItem(Item) {
-        console.log(Item);
         const query = postQuery(this.tableName);
         Item = Object.values(Item);
-        console.log(Item);
         const result = await executeQuery(query, Item);
         return result;
     }
 
     async updateItem(Item, id) {
-        console.log(Item);
         const query = putQuery(this.tableName);
         Item = Object.values(Item);
         Item.push(id);

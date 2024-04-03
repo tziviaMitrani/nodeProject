@@ -5,6 +5,10 @@ function getQuery(tableName) {
     return query
 }
 
+function getByParamQuery(tableName, param) {
+    const query = `SELECT * FROM ${tableName} where isActive = 1 AND ${param} = ?`;
+    return query
+}
 
 function getByIdQuery(tableName) {
     const query = `SELECT * FROM ${tableName} where isActive = 1 AND id = ?`;
@@ -63,7 +67,7 @@ function putQuery(tableName) {
 
 
 export {
-    getQuery, getByIdQuery, deleteQuery, postQuery, putQuery
+    getQuery, getByIdQuery, getByParamQuery, deleteQuery, postQuery, putQuery
 }
 
 // putUserQurery, putPostQurery, putCommentQurery, putTodoQurery, postCommentQuery, postTodoQuery, postPostQuery, postUserQuery
