@@ -4,19 +4,16 @@ import express from "express";
 export class TodoController {
     async getTodo(req, res, next) {
         try {
-            let resultItem;
-            console.log(req.query)
+            let resultItems;
             if (Object.keys(req.query).length>0) {
-                console.log(req.query.userId)
                 const service = new Service('todos', 'userId');
-                resultItem = await service.getItemByParam(req.query.userId);
+                resultItems = await service.getItemByParam(req.query.userId);
             }
             else{
             const service = new Service('todos');
-            resultItem = await service.getItem();
+            resultItems = await service.getItem();
             }
-            
-            return res.status(200).json(resultItem);
+            return res.status(200).json(resultItems);
         }
         catch (ex) {
             const err = {}
@@ -57,8 +54,9 @@ export class TodoController {
     async addTodo(req, res, next) {
         try {
             const service = new Service('todos');
-            await service.addItem(req.body);
-            res.status(200).json({ status: 200 });
+            const resultItem = await service.addItem(req.body);
+            const todoObject = {"id": resultItem.insertId, "title": req.body.title, "completed": req.body.completed, "userId": req.body.userId}
+            res.status(200).json( todoObject );
         }
         catch (ex) {
             const err = {}
@@ -72,10 +70,8 @@ export class TodoController {
         try {
             const service = new Service('todos');
             await service.updateItem(req.body, req.params.id);
-            console.log("todo");
-            console.log(req.params.id);
-            console.log(req.body);
-            res.status(200).json({ status: 200, data: req.params.id });
+            const todoObject = {"id":req.params.id, "title": req.body.title, "completed": req.body.completed};
+            res.status(200).json( todoObject );
         }
         catch (ex) {
             const err = {}

@@ -20,9 +20,9 @@ export class Service {
         return result;
     }
 
-    async getItemByParam() {
+    async getItemByParam(value) {
         const query = getByParamQuery(this.tableName, this.param);
-        const result = await executeQuery(query);
+        const result = await executeQuery(query, [value]);
         return result;
     }
 

@@ -7,9 +7,8 @@ export class PostController {
 
     async getPost(req, res, next) {
         try {
-            console.log(req.params)
             const service = new Service('posts');
-            const resultItems = await service.getItem()
+            const resultItems = await service.getItem()       
             return res.status(200).json(resultItems);
         }
         catch (ex) {
@@ -37,8 +36,9 @@ export class PostController {
     async addPost(req, res, next) {
         try {
             const service = new Service('posts');
-            await service.addItem(req.body);
-            res.status(200).json({ status: 200 });
+            const resultItem = await service.addItem(req.body);
+            const postObject = {"id": resultItem.insertId, "title": req.body.title, "body": req.body.body, "userId": req.body.userId, "name": req.body.name, "email": req.body.email}
+            res.status(200).json(postObject);
         }
         catch (ex) {
             const err = {}
@@ -51,11 +51,11 @@ export class PostController {
     async updatePost(req, res, next) {
         try {
             const service = new Service('posts');
-            await service.updateItem(req.body, req.params.id);
-            console.log("Post");
-            console.log(req.params.id);
             console.log(req.body);
-            res.status(200).json({ status: 200, data: req.params.id });
+            console.log(req.params.id);
+            await service.updateItem(req.body, req.params.id);
+            const postObject = {"id": req.params.id, "title": req.body.title, "body": req.body.body}
+            res.status(200).json(postObject);
         }
         catch (ex) {
             const err = {}

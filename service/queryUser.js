@@ -53,7 +53,7 @@ function putQuery(tableName) {
             query = `UPDATE posts SET title=?, body=? WHERE id = ?`;
             break;
         case 'todos':
-            query = `UPDATE todos SET title=?, completed=?, userId=? WHERE id = ?`;
+            query = `UPDATE todos SET title=?, completed=? WHERE id = ?`;
             break;
         case 'comments':
             query = `UPDATE comments SET name=?, body=? WHERE id = ?`;
