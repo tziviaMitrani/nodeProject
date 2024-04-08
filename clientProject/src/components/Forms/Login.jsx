@@ -67,7 +67,7 @@ const Login = () => {
                     };
                     setCurrentUser(currentUser);
                     localStorage.setItem("currentUser", JSON.stringify(currentUser));
-                    navigate(`/home/user/${response.data[0].name}`);
+                    navigate(`/home/user/${response.data[0].username}`);
                 }
                 else{
                     throw new Error(response.message)

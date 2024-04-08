@@ -82,38 +82,38 @@ const Register = () => {
 
   useEffect(() => {
     if (user != null) {
-      navigate(`/home/users/${user.id}`)
+      navigate(`/home/users/${user.username}`)
     }
-    fetch(`http://localhost:8080/ContinuousNumber/usersId`)
-      .then(response => {
-        return response.json()
-      })
-      .then(data => {
-        nextUserId.current = data.value + 1;
-      })
+    // fetch(`http://localhost:8080/user`)
+    //   .then(response => {
+    //     return response.json()
+    //   })
+    //   .then(data => {
+    //     nextUserId.current = data.value + 1;
+    //   })
   }
     , [])
 
 
 
-  const updateId = () => {
-    fetch(`http://localhost:8080/ContinuousNumber/usersId`, {
-      method: 'PATCH',
-      body: JSON.stringify({
-        value: nextUserId.current,
-      }),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
-    nextUserId.current = nextUserId.current + 1;
-  }
+  // const updateId = () => {
+  //   fetch(`http://localhost:8080/ContinuousNumber/usersId`, {
+  //     method: 'PATCH',
+  //     body: JSON.stringify({
+  //       value: nextUserId.current,
+  //     }),
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //   nextUserId.current = nextUserId.current + 1;
+  // }
 
 
   const signUp = (userDetails) => {
     if (userDetails.password !== userDetails.verifyPassword) {
-      alert('error! password is not defined')
+      alert('Error! password is not defined')
       reset();
       return;
     }
@@ -123,7 +123,7 @@ const Register = () => {
       })
       .then(data => {
         if (data.length) {
-          alert('this user name aleady exist');
+          alert('This user name aleady exist');
           reset();
           return;
         }

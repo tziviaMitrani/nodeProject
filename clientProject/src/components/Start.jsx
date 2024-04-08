@@ -10,7 +10,7 @@ export default function Start(){
         if (user==null) {
             navigete("/login")   
         }
-        navigete(`/home/user/${user.id}`)
+        navigete(`/home/user/${user.username}`)
     }
    )
     return (<></>
