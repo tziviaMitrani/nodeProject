@@ -8,25 +8,25 @@ const Info = () => {
             if (user == null) {
                 navigate('/login')
             }
-            getData();
+            // getData();
         }, []
     )
 
-    const getData = () => {
-        // fetch(`http://localhost:8080/user/${user.id}`)
-        //         .then(response => response.json())
-        //         .then(data => {
-        //             setCurrentUser(data)
-        //         })
-            // return () => setCurrentUser(JSON.parse(localStorage.getItem("currentUser")))
-            return () => setCurrentUser({
-                "id": 2,
-                "name": "Ervin Howell",
-                "username": "Antonette",
-                "email": "Shanna@melissa.tv",
-                "phone": "010-692-6593 x09125"
-              })
-    }
+    // const getData = () => {
+    //     // fetch(`http://localhost:8080/user/${user.id}`)
+    //     //         .then(response => response.json())
+    //     //         .then(data => {
+    //     //             setCurrentUser(data)
+    //     //         })
+    //         // return () => setCurrentUser(JSON.parse(localStorage.getItem("currentUser")))
+    //         return () => setCurrentUser({
+    //             "id": 2,
+    //             "name": "Ervin Howell",
+    //             "username": "Antonette",
+    //             "email": "Shanna@melissa.tv",
+    //             "phone": "010-692-6593 x09125"
+    //           })
+    // }
         
     const print = (myObject) => {
         delete myObject.status;

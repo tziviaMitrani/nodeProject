@@ -1,5 +1,5 @@
 import { executeQuery } from './db.js';
-import { getQuery, getByIdQuery, getByParamQuery, deleteQuery, putQuery, postQuery } from './queryUser.js'
+import { getQuery, getByIdQuery, getByParamQuery, deleteQuery, putQuery, postQuery, checkPasswordQuery } from './query.js'
 
 
 export class Service {
@@ -24,6 +24,13 @@ export class Service {
         const query = getByParamQuery(this.tableName, this.param);
         const result = await executeQuery(query, [value]);
         return result;
+    }
+
+    async checkIfExist(Item) {
+        const query = checkPasswordQuery(this.tableName);
+        Item = Object.values(Item);
+        const result = await executeQuery(query, Item);
+        return result[0]["COUNT(*)"];
     }
 
     async addItem(Item) {

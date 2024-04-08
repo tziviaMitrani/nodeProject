@@ -22,7 +22,7 @@ export class UserController {
         try {
             const service = new Service('users');
             const resultItem = await service.getItemById(req.params.id);
-            res.status(200).json( resultItem );
+            res.status(200).json(resultItem);
         }
         catch (ex) {
             const err = {}
@@ -42,6 +42,28 @@ export class UserController {
             const err = {}
             err.statusCode = 500;
             err.message = ex;
+            next(err)
+        }
+    }
+
+    async loginUser(req, res, next) {
+        try {
+            const service = new Service('passwords');
+            const resultItem = await service.checkIfExist(req.body);
+            if (resultItem == 0)
+                throw new Error(404);
+            else{
+                console.log(resultItem);
+                const data = new Service('users', 'userName');
+                const resultData = await data.getItemByParam(req.body.userName);
+                return res.status(200).json({status: 200, data: resultData});
+            }
+        }
+        catch (ex) {
+            console.log(ex.message)
+            const err = {};
+            err.statusCode = (ex.message == 404) ? 404 : 500
+            err.message = ex.message;
             next(err)
         }
     }

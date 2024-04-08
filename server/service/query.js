@@ -15,6 +15,11 @@ function getByIdQuery(tableName) {
     return query
 }
 
+function checkPasswordQuery(tableName) {
+    const query = `SELECT COUNT(*) FROM ${tableName} WHERE isActive = 1 AND userName = ? AND password = ?`;
+    return query;
+}
+
 function deleteQuery(tableName) {
     const query = `UPDATE ${tableName} SET isActive = 0 WHERE Id = ?`;
     return query
@@ -67,7 +72,7 @@ function putQuery(tableName) {
 
 
 export {
-    getQuery, getByIdQuery, getByParamQuery, deleteQuery, postQuery, putQuery
+    getQuery, getByIdQuery, getByParamQuery, deleteQuery, postQuery, putQuery, checkPasswordQuery
 }
 
 // putUserQurery, putPostQurery, putCommentQurery, putTodoQurery, postCommentQuery, postTodoQuery, postPostQuery, postUserQuery

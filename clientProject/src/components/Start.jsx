@@ -7,7 +7,7 @@ export default function Start(){
    const navigete = useNavigate()
    useEffect(
     ()=>{
-        if (user===null) {
+        if (user==null) {
             navigete("/login")   
         }
         navigete(`/home/user/${user.id}`)
