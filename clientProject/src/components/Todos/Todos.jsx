@@ -155,6 +155,7 @@ const Todos = () => {
         })
             .then((response) => response.json())
             .then(data => {
+                
                 reset();
                 dispatch({ type: "ADD", data: data });
             });

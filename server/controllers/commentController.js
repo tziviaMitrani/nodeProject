@@ -69,7 +69,7 @@ export class CommentController {
 
     async deleteComment(req, res, next) {
         try {
-            const service = new Service('comments');
+            const service = new Service('comments', 'id');
             await service.deleteItem(req.params.id);
             res.status(200).json({ status: 200, data: req.params.id });
         }

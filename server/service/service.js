@@ -1,5 +1,5 @@
 import { executeQuery } from './db.js';
-import { getQuery, getByIdQuery, getByParamQuery, deleteQuery, putQuery, postQuery, checkPasswordQuery } from './query.js'
+import { getQuery, getByIdQuery, getByParamQuery, deleteQuery, putQuery, postQuery, checkPasswordQuery, limitQuery } from './query.js'
 
 
 export class Service {
@@ -9,8 +9,8 @@ export class Service {
     }
 
     async getItem() {
-        const queryUser = getQuery(this.tableName);
-        const result = await executeQuery(queryUser);
+        const query = getQuery(this.tableName);
+        const result = await executeQuery(query);
         return result;
     }
 
@@ -41,16 +41,24 @@ export class Service {
     }
 
     async updateItem(Item, id) {
+        console.log("Item", Item)
         const query = putQuery(this.tableName);
-        Item = Object.values(Item);
+        Item = (typeof Item === 'object')? Object.values(Item): [Item];
         Item.push(id);
+        console.log("Item", Item)
         const result = await executeQuery(query, Item);
         return result;
     }
 
     async deleteItem(id) {
-        const query = deleteQuery(this.tableName);
+        const query = deleteQuery(this.tableName, this.param);
         const result = await executeQuery(query, [id]);
+        return result;
+    }
+
+    async limitGet(start){
+        const query = limitQuery(this.tableName);
+        const result = await executeQuery(query, [this.param, start]);
         return result;
     }
 }

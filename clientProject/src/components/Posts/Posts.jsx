@@ -72,7 +72,7 @@ const Posts = () => {
     const [userPosts, dispatch] = useReducer(reducer, initialPosts);
 
     const getData = () => {
-        fetch(`http://localhost:8080/post/?userId=${user.id}`)
+        fetch(`http://localhost:8080/post`)
             .then(response => response.json())
             .then(data => {
                 dispatch({ type: "START", data: data })

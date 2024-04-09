@@ -10,7 +10,7 @@ const Login = () => {
 
     useEffect(() => {
         if (user != null) {
-            navigate(`/home/users/${user.id}`)
+            navigate(`/home/users/${user.username}`)
         }
     }, [])
 
@@ -20,37 +20,16 @@ const Login = () => {
         reset,
     } = useForm({
         defaultValues: {
-            userName: '',
+            username: '',
             password: ''
         }
     });
 
-    const addComment = (commentData) => {
-        setAddDisplay(null);
-        fetch(`http://localhost:8080/comment`, {
-            method: 'POST',
-            body: JSON.stringify({
-                postId: postId,
-                name: commentData.name,
-                email: user.email,
-                body: commentData.body
-            }),
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-            },
-        })
-            .then((response) => response.json())
-            .then(data => {
-                reset()
-                dispatch({ type: "ADD", data: data });
-            });
-    }
-
     const onSubmit = (userDetails) => {
-        fetch(`http://localhost:8080/user/login`, {
+        fetch(`http://localhost:8080/forms/login`, {
             method: 'POST',
             body: JSON.stringify({
-                userName: userDetails.userName,
+                username: userDetails.username,
                 password: userDetails.password
             }),
             headers: {
@@ -73,7 +52,6 @@ const Login = () => {
                     throw new Error(response.message)
                 }
             }).catch((err)=>{
-                console.log(err)
                 if(err.message==="Not found")
                     alert("A user with this data is not found");
             })
@@ -82,7 +60,7 @@ const Login = () => {
     return (<>
         <h3>LOG IN</h3>
         <form onSubmit={handleSubmit(onSubmit)} className="forms">
-            <input type="text" placeholder="user name" {...register("userName", { required: true })} /><br />
+            <input type="text" placeholder="user name" {...register("username", { required: true })} /><br />
             <input type="password" placeholder="password" {...register("password", { required: true })} /><br />
             <button className="BTNforns">Log in</button><br />
             <Link to="/register">not registered yet?</Link>

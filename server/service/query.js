@@ -16,12 +16,12 @@ function getByIdQuery(tableName) {
 }
 
 function checkPasswordQuery(tableName) {
-    const query = `SELECT COUNT(*) FROM ${tableName} WHERE isActive = 1 AND userName = ? AND password = ?`;
+    const query = `SELECT COUNT(*) FROM ${tableName} WHERE isActive = 1 AND username = ? AND password = ?`;
     return query;
 }
 
-function deleteQuery(tableName) {
-    const query = `UPDATE ${tableName} SET isActive = 0 WHERE Id = ?`;
+function deleteQuery(tableName, param) {
+    const query = `UPDATE ${tableName} SET isActive = 0 WHERE ${param} = ?`;
     return query
 }
 
@@ -30,7 +30,6 @@ function postQuery(tableName) {
     let query;
     switch (tableName) {
         case 'users':
-            console.log("table" + tableName);
             query = `INSERT INTO users (name, username, email, phone,isActive) VALUES (?,?,?,?,1)`;
             break;
         case 'posts':
@@ -42,6 +41,8 @@ function postQuery(tableName) {
         case 'comments':
             query = `INSERT INTO comments (postId, name, email, body) VALUES (?,?,?,?)`;
             break;
+        case 'passwords':
+            query = `INSERT INTO passwords (username, password) VALUES (?,?)`
         default:
             break;
     }
@@ -52,7 +53,7 @@ function putQuery(tableName) {
     let query;
     switch (tableName) {
         case 'users':
-            query = `UPDATE users SET name=?, userName=?, email=?, phone=?  WHERE id = ?`;
+            query = `UPDATE users SET name=?, username=?, email=?, phone=?  WHERE id = ?`;
             break;
         case 'posts':
             query = `UPDATE posts SET title=?, body=? WHERE id = ?`;
@@ -63,60 +64,20 @@ function putQuery(tableName) {
         case 'comments':
             query = `UPDATE comments SET name=?, body=? WHERE id = ?`;
             break;
-
+        case 'passwords':
+            query = `UPDATE passwords SET password=? WHERE username = ?`;
         default:
             break;
     }
     return query;
 }
 
+function limitQuery(tableName) {
+    const query = `SELECT * FROM ${tableName} LIMIT ? OFFSET ?`;
+    return query;
+}
 
 export {
-    getQuery, getByIdQuery, getByParamQuery, deleteQuery, postQuery, putQuery, checkPasswordQuery
+    getQuery, getByIdQuery, getByParamQuery, deleteQuery, postQuery, putQuery, checkPasswordQuery, limitQuery
 }
 
-// putUserQurery, putPostQurery, putCommentQurery, putTodoQurery, postCommentQuery, postTodoQuery, postPostQuery, postUserQuery
-//post
-//להכניס לפי שדות של user
-function postUserQuery() {
-    const query = `INSERT INTO users (name, username, email, phone,isActive) VALUES (?,?,?,?,1)`;
-    return query
-}
-//להכניס לפי שדות של post
-function postPostQuery(tableName) {
-    const query = `"INSERT INTO db_for_project.posts () VALUES (?,?,?,?,?)`;
-    return query
-}
-//להכניס לפי שדות של comments
-function postTodoQuery(tableName) {
-    const query = `"INSERT INTO db_for_project.todos () VALUES (?,?,?,?,?)`;
-    return query
-}
-//להכניס לפי שדות של comments
-function postCommentQuery(tableName) {
-    const query = `"INSERT INTO db_for_project.comments () VALUES (?,?,?,?,?)`;
-    return query
-}
-
-
-//put
-//להכניס לפי שדות של user
-function putUserQurery() {
-    const query = `UPDATE db_for_project.users SET name=?, userName=?, email=?, phone=?  WHERE id = ?`;
-    return query
-}
-//להכניס לפי שדות של post
-function putPostQurery() {
-    const query = `UPDATE db_for_project.posts SET ? WHERE id = ?`;
-    return query
-}
-//להכניס לפי שדות של comments
-function putCommentQurery() {
-    const query = `UPDATE db_for_project.comments SET ? WHERE id = ?`;
-    return query
-}
-//להכניס לפי שדות של todo
-function putTodoQurery() {
-    const query = `UPDATE db_for_project.todos SET ? WHERE id = ?`;
-    return query
-}

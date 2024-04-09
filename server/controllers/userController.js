@@ -35,8 +35,12 @@ export class UserController {
     async addUser(req, res, next) {
         try {
             const service = new Service('users');
-            await service.addItem(req.body);
-            res.status(200).json({ status: 200 });
+            const resultItem = await service.addItem(req.body);
+            const userObject = { "id": resultItem.insertId, "name": req.body.name, "username": req.body.username,
+             "email": req.body.email, "phone":req.body.phone }
+             const passwordService = new Service('passwords');
+             await passwordService.addItem(req.body);
+            res.status(200).json({ status: 200, data: userObject });
         }
         catch (ex) {
             const err = {}
@@ -46,35 +50,10 @@ export class UserController {
         }
     }
 
-    async loginUser(req, res, next) {
-        try {
-            const service = new Service('passwords');
-            const resultItem = await service.checkIfExist(req.body);
-            if (resultItem == 0)
-                throw new Error(404);
-            else{
-                console.log(resultItem);
-                const data = new Service('users', 'userName');
-                const resultData = await data.getItemByParam(req.body.userName);
-                return res.status(200).json({status: 200, data: resultData});
-            }
-        }
-        catch (ex) {
-            console.log(ex.message)
-            const err = {};
-            err.statusCode = (ex.message == 404) ? 404 : 500
-            err.message = ex.message;
-            next(err)
-        }
-    }
-
     async updateUser(req, res, next) {
         try {
             const service = new Service('users');
             await service.updateItem(req.body, req.params.id);
-            console.log("user");
-            console.log(req.params.id);
-            console.log(req.body);
             res.status(200).json({ status: 200, data: req.params.id });
         }
         catch (ex) {
@@ -87,8 +66,12 @@ export class UserController {
 
     async deleteUser(req, res, next) {
         try {
-            const service = new Service('users');
-            await service.deleteItem(req.params.id);
+            const userService = new Service('users', 'id');
+            await userService.deleteItem(req.params.id);
+            const postService = new Service('posts', 'userId');
+            await postService.deleteItem(req.params.id);
+            const todoService = new Service('todos', 'userId');
+            await todoService.deleteItem(req.params.id);
             res.status(200).json({ status: 200, data: req.params.id });
         }
         catch (ex) {

@@ -8,12 +8,12 @@ const Register = () => {
 
   const [isExsist, setIsExist] = useState(true);
   const { user, setCurrentUser } = useContext(UserContext);
-  const nextUserId = useRef(0)
+  //const nextUserId = useRef(0)
 
   const navigate = useNavigate();
 
   const IntegrityChecks = {
-    userName: {
+    username: {
       required: " user name is required.",
       pattern: {
         value: /^[a-zA-Z]*$/,
@@ -52,9 +52,6 @@ const Register = () => {
     email: {
       required: "Email is required"
     },
-    city: {
-      required: "City is required"
-    },
     phoneNumber: {
       required: "Phone number is required.",
       pattern: {
@@ -65,10 +62,6 @@ const Register = () => {
         value: 9,
         message: 'phone number should be at-least 9 digits.'
       }
-    }
-    ,
-    companyName: {
-      required: "Name of company is required."
     }
   }
 
@@ -117,13 +110,11 @@ const Register = () => {
       reset();
       return;
     }
-    fetch(`http://localhost:8080/user/?username=${userDetails.userName}`)
-      .then(response => {
-        return response.json()
-      })
+    fetch(`http://localhost:8080/forms/signup/?username=${userDetails.username}`)
+    .then(data=>data.json())
       .then(data => {
-        if (data.length) {
-          alert('This user name aleady exist');
+        if (data.status == 409) {
+          alert('This user name aleady exists');
           reset();
           return;
         }
@@ -133,55 +124,53 @@ const Register = () => {
       })
   }
 
-
   const userData = (moreDetails) => {
     fetch(`http://localhost:8080/user`, {
       method: 'POST',
       body: JSON.stringify({
-        id: `${nextUserId.current}`,
         name: moreDetails.name,
-        username: user.userName,
+        username: user.username,
         email: moreDetails.email,
-        address: {
-          street: moreDetails.street,
-          suite: moreDetails.suite,
-          city: moreDetails.city,
-          zipcode: moreDetails.zipcode,
-          geo: {
-            lat: moreDetails.lat,
-            lng: moreDetails.lng
-          }
-        },
-        phone: moreDetails.phone,
-        website: moreDetails.website,
-        company: {
-          name: moreDetails.companyName,
-          catchPhrase: moreDetails.catchPhrase,
-          bs: moreDetails.bs
-        }
+        phone: moreDetails.phoneNumber
       }),
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
       },
     })
       .then((response) => response.json())
-      .then(data => {
-        const currentUser = { username: data.username, name: data.name, id: data.id, email: data.email };
+      .then(response => {
+        insertPassword();
+        const currentUser = response.data;
         setCurrentUser(currentUser)
         localStorage.setItem("currentUser", JSON.stringify(currentUser));
       });
-    updateId();
-    navigate(`/home/user/${nextUserId.current - 1}`);
+    navigate(`/home/user/${user.username}`);
   }
 
+  const insertPassword = () => {
+    fetch(`http://localhost:8080/forms`, {
+      method: 'POST',
+      body: JSON.stringify({
+        username: user.username,
+        password: user.password
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    }).then((response) => response.json())
+    .then((data) =>{
+      if(data.status != 200)
+        alert(data.message)
+    })
+  }
 
   return (
     <>
       <h3>REGISTER</h3>
       {isExsist ? <form onSubmit={handleSubmit(signUp)} className="forms">
-        <input type="text" placeholder="user name"{...register("userName", IntegrityChecks.userName)} /><br />
-        {errors.userName && (
-          <p className="errorMsg">{errors.userName.message}</p>)}
+        <input type="text" placeholder="user name"{...register("username", IntegrityChecks.username)} /><br />
+        {errors.username && (
+          <p className="errorMsg">{errors.username.message}</p>)}
         <input type="password" placeholder="password" {...register("password", IntegrityChecks.Password)} /><br />
         {errors.password && (
           <p className="errorMsg">{errors.password.message}</p>)}
@@ -199,26 +188,9 @@ const Register = () => {
           <input type="email" placeholder="Email" {...register("email", IntegrityChecks.email)} /><br />
           {errors.email && (
             <p className="errorMsg">{errors.email.message}</p>)}
-          <label >address:</label><br />
-          <input type="text" placeholder="street" {...register("street")} />
-          <input type="text" placeholder="suite"  {...register("suite")} />
-          <input type="text" placeholder="city" {...register("city", IntegrityChecks.city)} />
-          {errors.city && (
-            <p className="errorMsg">{errors.city.message}</p>)}
-          <input type="text" placeholder="zipcode"  {...register("zipcode")} /><br />
-          <label >geo:</label><br />
-          <input type="text" placeholder="lat" {...register("lat")} />
-          <input type="text" placeholder="lng" {...register("lng")} /><br />
           <input type="text" placeholder="phone number" {...register("phoneNumber", IntegrityChecks.phoneNumber)} />
           {errors.phoneNumber && (
             <p className="errorMsg">{errors.phoneNumber.message}</p>)}<br />
-          <label htmlFor="company">company</label><br />
-          <input type="text" name="company" placeholder="name of company" {...register("companyName", IntegrityChecks.companyName)} />
-          {errors.companyName && (
-            <p className="errorMsg">{errors.companyName.message}</p>)}
-          <input type="text" placeholder="catchPhrase"  {...register("catchPhrase")} />
-          <input type="text" placeholder="bs"  {...register("bs")} />
-          <br />
           <button type="submit" className="BTNforns">Register</button>
         </form>}
     </>

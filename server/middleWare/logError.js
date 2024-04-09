@@ -6,6 +6,7 @@ export const logErrors = (error, req, res, next) => {
 }
 
 function errMessageForClient(statusCode) {
+    console.log("status code ---" +statusCode);
     switch (statusCode) {
         case 400:
             return 'Invalid request parameters';
@@ -13,6 +14,8 @@ function errMessageForClient(statusCode) {
             return 'Authorization required';
         case 404:
             return 'Not found';
+        case 409:
+            return 'Bad request';
         case 500:
             return 'Internal Server Error';
         default:

@@ -83,7 +83,7 @@ export class TodoController {
 
     async deleteTodo(req, res, next) {
         try {
-            const service = new Service('todos');
+            const service = new Service('todos', 'id');
             await service.deleteItem(req.params.id);
             res.status(200).json({ status: 200, data: req.params.id });
         }

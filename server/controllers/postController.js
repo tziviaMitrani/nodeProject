@@ -67,8 +67,10 @@ export class PostController {
 
     async deletePost(req, res, next) {
         try {
-            const service = new Service('posts');
-            await service.deleteItem(req.params.id);
+            const commentService = new Service('comments', 'postId');
+            await commentService.deleteItem(req.params.id);
+            const postService = new Service('posts', 'id');
+            await postService.deleteItem(req.params.id);
             res.status(200).json({ status: 200, data: req.params.id });
         }
         catch (ex) {
