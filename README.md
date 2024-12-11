@@ -1,4 +1,4 @@
-Social Network Application
+# Social Network Applicatio
 ## Description
 A React-based social media application that allows users to create and interact with posts,
 comments, and photo albums.
